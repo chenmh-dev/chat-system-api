@@ -1,4 +1,4 @@
-# Chat System API Design v1
+# Chat System API Design v2
 
 ## 1. API Overview
     POST /conversations/direct
@@ -44,19 +44,30 @@
     没有则创建与目标的会话
     创建两条member_ship
 
-### 3.1.9 Response
-    Success - 201 Conversation created
-    Success - 200 Conversation found
+### 3.1.9 Response 
+    Success - 201 OK
+    {
+    "success": true,
+    "message": "Conversation created",
+    "data": []
+    }
 
+    Success - 200 OK
+    {
+    "success": true,
+    "message": "Conversation found",
+    "data": []
+    }
 ### 3.1.10 Error Cases
     400 BadRequest: target_user_id must be integer
-    401 Unauthorization
-    403 无权限
+    401 Unauthorized: Ivalid token or expired
+    403 Forbidden: can not conversation with yourself
     404 NotFound: user not found
 
 ### 3.1.11 Service Responsibility
-    判断目标是否存在
-    判断会话是否存在
+    寻找会话时确认目标存在
+    寻找会话时确认与目标的会话存在
+    创建会话时确认会话目标不是自己
 
 ### 3.2.1 Endpoint
     GET /conversations
@@ -71,7 +82,11 @@
     None
 
 ### 3.2.5 Query Params
-    user_id: int, 当前登录用户的id
+    page: int, 可空，默认值：1， 页数
+    page_size: int, 可空，默认值：10，一页的大小
+    sort: str, 可空，默认值：id，排序的字段
+    order: str， 可空，默认值：desc，选择是递增还是递减
+    keyword: str 可空，默认值：None，查询的关键字
     
 ### 3.2.6 Request Body
     {}
@@ -80,19 +95,27 @@
     None
 
 ### 3.2.8 Business Rules
-    查看当前user_id下有哪些convasation_id
+    获取当前用户id
+    查看当前用户的所有会话
 
 ### 3.2.9 Response
-    Success - 200 Conversations found
-
+    Success - 200 OK
+    {
+    "success": true,
+    "message": "Conversations found",
+    "data": []
+    }
 ### 3.2.10 Error Cases
-    None
+    400 BadRequest: Bad request
+    401 Unauthorized: Ivalid token or expired
+    403 Forbidden: Forbidden
+    404 NotFound: Convasation Not found
 
 ### 3.2.11 Service Responsibility
-    找到当前user_id所拥有的conversation_id
+    查看当前用户的所有会话
 
 ### 3.3.1 Endpoint
-    GET /conversations/<conversation_id>/introduction
+    GET /conversations/<conversation_id>
 
 ### 3.3.2 Purpose
     查看当前用户的某个会话的详情
@@ -104,8 +127,7 @@
     conversation_id，int, conversation表的id
 
 ### 3.3.5 Query Params
-    user_id: int, 当前登录用户的id
-    conversation_id，int, conversation表的id
+    None
 
 ### 3.3.6 Request Body
     {}
@@ -114,21 +136,30 @@
     None
 
 ### 3.3.8 Business Rules
-    查看当前user_id下的convasation_id的详情
-
+    获取当前用户id
+    在member_ship表中筛选具有当前用户id的数据
+ 
 ### 3.3.9 Response
-    Success - 200 Conversations introduction
+    Success - 200 OK
+    {
+    "success": true,
+    "message": "Conversation",
+    "data": []
+    }
 
 ### 3.3.10 Error Cases
-    404 NotFound: convasation not found
+    400 BadRequest: Bad request
+    401 Unauthorized: Ivalid token or expired
+    403 Forbidden: Forbidden
+    404 NotFound: Convasation Not found
 
 ### 3.3.11 Service Responsibility
-    查看当前user_id下的convasation_id的详情
+    在member_ship表中筛选具有当前用户id的数据
 
 ## 4. Message APIs
 
 ### 4.1.1 Endpoint
-    GET /conversations/<conversation_id>
+    GET /conversations/<conversation_id>/messages
 
 ### 4.1.2 Purpose
     查看某个会话下的消息
@@ -141,8 +172,7 @@
     conversation_id：int， 表conversation的id
 
 ### 4.1.5 Query Params
-    conversation_id：int， 表conversation的id
-    user_id: int, 当前登录用户的id
+    None
 
 ### 4.1.6 Request Body
     {}
@@ -151,18 +181,26 @@
     None
 
 ### 4.1.8 Business Rules
-    conversation_id存在
-    user_id和conversation_id在同一个conversation中
+    获取当前用户id
+    确认conversation_id属于当前用户
+    查询conversation_id下的所有消息
 
 ### 4.1.9 Response
-    Success - 200 Messages
+    Success - 200 OK
+    {
+    "success": true,
+    "message": "Messages",
+    "data": []
+    }
 
 ### 4.1.10 Error Cases
-    404 NotFound: conversation not found
+    400 BadRequest: Bad request
+    401 Unauthorized: Ivalid token or expired
+    403 Forbidden: Forbidden
 
 ### 4.1.11 Service Responsibility
-    判断会话是否存在
-    判断当前用户是否在查询的会话中
+    确认conversation_id属于当前用户
+    查询conversation_id下的所有消息
 
 ### 4.2.1 Endpoint
     POST /conversations/<conversation_id>/messages
@@ -178,31 +216,39 @@
     conversation_id：int， 表conversation的id
 
 ### 4.2.5 Query Params
-    conversation_id：int， 表conversation的id
-    user_id: int, 当前登录用户的id
-    content:str, 发送的消息
+    None
     
 ### 4.2.6 Request Body
     {
-        "content": ""
+        "content": "language"
     }
 
 ### 4.2.7 Validation Rules
     必须是字符串，not None，可以是空字符串
 
 ### 4.2.8 Business Rules
-    conversation_id存在
-    user_id和conversation_id在同一个conversation中
+    验证用户输入合法
+    获取当前用户id
+    确认conversation_id属于当前用户
+    创建一条message
 
 ### 4.2.9 Response
-    Success - 200 Message created
+    Success - 201 OK
+    {
+    "success": true,
+    "message": "Message created",
+    "data": []
+    }
 
 ### 4.2.10 Error Cases
-    404 NotFound: conversation not found
+    400 BadRequest: Bad request
+    401 Unauthorized: Ivalid token or expired
+    403 Forbidden: Forbidden
+    404 NotFound: Conversation Not found
 
 ### 4.2.11 Service Responsibility
-    判断会话是否存在
-    判断当前用户是否在查询的会话中
+    确认conversation_id属于当前用户
+    创建一条message
 
 
 
