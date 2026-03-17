@@ -11,4 +11,6 @@ def registe_error_hanlder(app: Flask):
 
     @app.errorhandler(HTTPException)
     def handel_unexpected_error(err):
-         return fail(code="INTERNAL_ERROR", message="Internal server error", status=500)
+        import traceback
+        traceback.print_exc()
+        return fail(code="INTERNAL_ERROR", message="Internal server error", status=500)
