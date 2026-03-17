@@ -8,9 +8,11 @@
     POST /conversations/<conversation_id>/messages
 
 ## 2. Auth Rules
-    用户可以创建多个会话
-    一个会话可以包含多个用户
-    一个会话下可以有多条消息
+    All endpoints require authentication.
+
+    User identity is derived from token.
+
+    Conversation resources can only be accessed by members.
 
 ## 3. Conversation APIs
 
