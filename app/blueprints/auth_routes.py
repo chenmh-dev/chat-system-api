@@ -1,7 +1,7 @@
 from flask import Blueprint, g, request
-from ..validators import get_json, required_str
+from ..validators.common_validators import get_json, required_str
 from ..services.auth_service import register_service, login_service
-from ..utils import ok
+from ..response import ok
 bp = Blueprint("auth", __name__)
 
 @bp.post("/register")

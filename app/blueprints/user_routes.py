@@ -2,7 +2,7 @@ from flask import Blueprint, g
 from ..db import get_db
 from ..decorators import require_auth_token
 from ..exceptions import NotFound
-from ..utils import ok
+from ..response import ok
 
 bp = Blueprint("user", __name__)
 

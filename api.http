@@ -7,7 +7,7 @@ POST {{baseURL}}/register
 Content-Type: application/json
 
 {
-    "username": "cmh",
+    "username": "cmh5",
     "password": "123"
 }
 
@@ -25,3 +25,14 @@ Content-Type: application/json
 
 GET {{baseURL}}/me
 Authorization: Bearer {{token}}
+
+
+
+###get or create direct conversation
+POST {{baseURL}}/conversations/direct
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "target_user_id": 3
+}

@@ -1,7 +1,7 @@
 from flask import Flask
 from werkzeug.exceptions import HTTPException
 from .exceptions import AppError
-from .utils import fail
+from .response import fail
 
 def registe_error_hanlder(app: Flask):
 
