@@ -63,7 +63,7 @@ def optional_str(
     return s
 
 
-def require_any(*values: Any, message: str = "no fields to update") -> None:
+def require_any(*values: Any, message: str = "No fields to update") -> None:
     if all(v is None for v in values):
         raise BadRequest(message=message)
 
@@ -77,17 +77,17 @@ def validate_task_status(
     val = data.get("status", None)
 
     if not isinstance(val, str):
-        raise BadRequest(message="status must be a string")
+        raise BadRequest(message="Status must be a string")
     
     if val is None:
         if required:
-            raise BadRequest(message="status is required")
+            raise BadRequest(message="Status is required")
         else:
             return default_status
     
     status = val.strip().lower()
     if status not in default_status_fields:
-        raise BadRequest(message=f"status must be one of {list(default_status_fields)}")
+        raise BadRequest(message=f"Status must be one of {list(default_status_fields)}")
     return status
 
 
@@ -104,7 +104,7 @@ def required_int(
         raise BadRequest(message=f"{key} is required")
     
     if not isinstance(val, int):
-        raise BadRequest(message=f"{key} must be integer")
+        raise BadRequest(message=f"{key} must be a integer")
 
     if val < min_size:
         raise BadRequest(message=f"{key} is too small")

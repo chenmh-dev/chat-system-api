@@ -34,13 +34,26 @@ Authorization: Bearer {{token}}
 Content-Type: application/json 
 
 {
-    "target_user_id": "avx"
+    "target_user_id": 2
 }
 
 ### list conversations paginated
 GET {{baseURL}}/conversations?page=1&page_size=10&sort=id&order=asc&keyword=
 Authorization: Bearer {{token}}
 
-### get conversation
+### get conversation detail
 GET {{baseURL}}/conversations/2
+Authorization: Bearer {{token}}
+
+### create message
+POST {{baseURL}}/conversations/1/messages
+Authorization: Bearer {{token}}
+Content-Type: application/json 
+
+{
+    "content": "{{$timestamp}}"
+}
+
+### list messages paginated
+GET {{baseURL}}/conversations/1/messages?page=1&page_size=10&sort=id&order=asc&keyword=617
 Authorization: Bearer {{token}}

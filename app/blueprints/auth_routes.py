@@ -6,7 +6,7 @@ bp = Blueprint("auth", __name__)
 
 @bp.post("/register")
 def register_route():
-    data = get_json(request)
+    data = get_json(request=request)
     username = required_str(data, "username", min_len=1, max_len=100)
     password = required_str(data, "password", min_len=2, max_len=200)
     result = register_service(username=username, password=password)
@@ -14,7 +14,7 @@ def register_route():
 
 @bp.post("/login")
 def login_route():
-    data = get_json(request)
+    data = get_json(request=request)
     username = required_str(data, "username", min_len=1, max_len=100)
     password = required_str(data, "password", min_len=2, max_len=200)
     result = login_service(username, password)

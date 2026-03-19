@@ -19,11 +19,13 @@ def create_app():
     from .blueprints.auth_routes import bp as auth
     from .blueprints.user_routes import bp as user
     from .blueprints.conversation_routes import bp as conversation
-
+    from .blueprints.message_routes import bp as message
+    
     app.register_blueprint(home)
     app.register_blueprint(auth)
     app.register_blueprint(user)
     app.register_blueprint(conversation)
+    app.register_blueprint(message)
 
     registe_error_hanlder(app)
     return app

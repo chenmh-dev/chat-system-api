@@ -1,6 +1,6 @@
 from ..db import get_db
 
-def get_user_by_id(user_id: int) -> dict | None:
+def get_user_by_id_repo(user_id: int) -> dict | None:
     db = get_db()
     row = db.execute(
         "SELECT * FROM users WHERE id = ?",

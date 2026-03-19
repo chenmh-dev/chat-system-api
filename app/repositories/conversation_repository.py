@@ -1,6 +1,6 @@
 from ..db import get_db
 
-def create_conversation(type: str) -> int:
+def create_conversation_repo(type: str) -> int:
     db = get_db()
     cur = db.execute(
         "INSERT INTO conversations(type) VALUES (?)",
@@ -9,7 +9,7 @@ def create_conversation(type: str) -> int:
     db.commit()
     return cur.lastrowid
 
-def add_conversation_member(conversation_id: int, user_id: int) -> int:
+def add_conversation_member_repo(conversation_id: int, user_id: int) -> int:
     db = get_db()
     cur = db.execute(
         "INSERT INTO conversation_members(conversation_id, user_id) VALUES(?, ?)",
@@ -18,7 +18,7 @@ def add_conversation_member(conversation_id: int, user_id: int) -> int:
     db.commit()
     return cur.lastrowid
 
-def find_direct_conversation_between_users(
+def find_direct_conversation_between_users_repo(
     user_a_id: int, 
     user_b_id: int
 ) -> dict | None:
@@ -38,7 +38,7 @@ def find_direct_conversation_between_users(
     return dict(row) if row else None
     
 
-def get_conversation_by_id(conversation_id: int) -> dict | None:
+def get_conversation_by_id_repo(conversation_id: int) -> dict | None:
     db = get_db()
     row = db.execute(
         "SELECT * FROM conversations WHERE id = ?",
@@ -46,7 +46,7 @@ def get_conversation_by_id(conversation_id: int) -> dict | None:
     ).fetchone()
     return dict(row) if row else None
 
-def list_user_conversations_paginated(
+def list_user_conversations_paginated_repo(
     user_id: int, 
     page: int, 
     page_size: int, 
@@ -99,7 +99,7 @@ def list_user_conversations_paginated(
         }
     }
 
-def membership_exists(conversation_id: int, user_id: int) -> bool:
+def membership_exists_repo(user_id: int, conversation_id: int) -> bool:
     db = get_db()
     row = db.execute(
         "SELECT id FROM conversation_members WHERE conversation_id = ? AND user_id = ?",
@@ -108,7 +108,7 @@ def membership_exists(conversation_id: int, user_id: int) -> bool:
 
     return True if row else False
 
-def list_conversation_members(conversation_id: int) -> list[dict]:
+def list_conversation_members_repo(conversation_id: int) -> list[dict]:
     db = get_db()
     rows = db.execute(
         "SELECT user_id FROM conversation_members WHERE conversation_id = ?",
@@ -117,7 +117,7 @@ def list_conversation_members(conversation_id: int) -> list[dict]:
 
     return [dict(r) for r in rows]
 
-def update_conversation_updated_at(conversation_id: int) -> bool:
+def update_conversation_updated_at_repo(conversation_id: int) -> bool:
     db = get_db()
     cur = db.execute(
         "UPDATE conversations SET updated_at = CURRENT_TIMESTAMP WHERE id = ?",
