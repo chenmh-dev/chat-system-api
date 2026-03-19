@@ -28,11 +28,16 @@ Authorization: Bearer {{token}}
 
 
 
-###get or create direct conversation
+### get or create direct conversation
 POST {{baseURL}}/conversations/direct
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "target_user_id": 3
+    "target_user_id": "avx"
 }
+
+### list conversations paginated
+GET {{baseURL}}/conversations?page=1&page_size=10&sort=id&order=asc&keyword=
+Authorization: Bearer {{token}}
+

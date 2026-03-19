@@ -1,5 +1,4 @@
 from ..db import get_db
-from ..exceptions import NotFound
 
 def create_conversation(type: str) -> int:
     db = get_db()
@@ -47,23 +46,15 @@ def get_conversation_by_id(conversation_id: int) -> dict | None:
     ).fetchone()
     return dict(row) if row else None
 
-def list_user_conversation(
+def list_user_conversations_paginated(
     user_id: int, 
     page: int, 
     page_size: int, 
     sort: str, 
     order: str,
     keyword: str | None
-) -> dict:
-    allowed_sort = {"created_at", "updated_at"}
-    allowed_order = {"asc", "desc"}
-    if sort not in allowed_sort:
-        sort = "created_at"
-    if order.lower() not in allowed_order:
-        order = "desc"
-    
+) -> dict:  
     db = get_db()
-
     where_clause = "WHERE cm.user_id = ? "
     params = [user_id]
     if keyword:

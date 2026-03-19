@@ -1,10 +1,10 @@
-from ..exceptions import Conflict, NotFound
+from ..exceptions import Conflict, NotFound, BadRequest
 from ..repositories.user_repository import get_user_by_id
 from ..repositories.conversation_repository import(
     find_direct_conversation_between_users,
     create_conversation,
     add_conversation_member,
-    
+    list_user_conversations_paginated
 )
 
 def get_or_create_direct_conversation(user_id: int, target_user_id: int) -> int:
@@ -23,3 +23,21 @@ def get_or_create_direct_conversation(user_id: int, target_user_id: int) -> int:
         return conversation_id
     else:
         return data["conversation_id"]
+
+def list_conversations_paginated(
+    user_id: int, 
+    page: int, 
+    page_size: int, 
+    sort: str, 
+    order: str, 
+    keyword: str | None
+) -> dict:
+    data = list_user_conversations_paginated(
+        user_id=user_id, 
+        page=page, 
+        page_size=page_size, 
+        sort=sort, 
+        order=order,
+        keyword=keyword
+    )
+    return data
