@@ -4,7 +4,9 @@ from ..repositories.conversation_repository import(
     find_direct_conversation_between_users,
     create_conversation,
     add_conversation_member,
-    list_user_conversations_paginated
+    list_user_conversations_paginated,
+    get_conversation_by_id,
+    membership_exists
 )
 
 def get_or_create_direct_conversation(user_id: int, target_user_id: int) -> int:
@@ -40,4 +42,10 @@ def list_conversations_paginated(
         order=order,
         keyword=keyword
     )
+    return data
+
+def get_conversation(user_id: int, conversation_id: int) -> dict:
+    if not membership_exists(conversation_id=conversation_id, user_id=user_id):
+        raise NotFound(code="CONVERSATION_NOT_FOUND", message="conversation not found")
+    data = get_conversation_by_id(conversation_id=conversation_id)
     return data

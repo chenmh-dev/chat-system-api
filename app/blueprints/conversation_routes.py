@@ -3,7 +3,8 @@ from ..response import ok
 from ..decorators import require_auth_token
 from ..services.conversation_service import(
     get_or_create_direct_conversation,
-    list_conversations_paginated
+    list_conversations_paginated,
+    get_conversation
 )
 from ..validators.common_validators import(
     get_json,
@@ -52,7 +53,12 @@ def list_user_conversations_paginated_route():
     )
     return ok(data=result, message="Conversations", status=200)
 
-
+@bp.get("/conversations/<int:conversation_id>")
+@require_auth_token
+def get_conversation_detail_route(conversation_id: int):
+    user_id = g.user["user_id"]
+    result = get_conversation(user_id=user_id, conversation_id=conversation_id)
+    return ok(data=result, message="Conversation", status=200)
 
 
 
