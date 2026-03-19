@@ -7,7 +7,7 @@ POST {{baseURL}}/register
 Content-Type: application/json
 
 {
-    "username": "cmh5",
+    "username": "cmh6",
     "password": "123"
 }
 

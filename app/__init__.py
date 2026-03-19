@@ -1,8 +1,9 @@
-import os
-from flask import Flask
+import os, time, uuid
+from flask import Flask, request, g
 from .db import init_db, close_db
 from .errors import registe_error_hanlder
 from .config import DevelopmentConfig, ProductionConfig
+from .utils.logging import setup_logging
 def create_app():
     app = Flask(__name__)
     env = os.getenv("APP_ENV", "development").lower()
@@ -11,7 +12,30 @@ def create_app():
     else:
         app.config.from_object(DevelopmentConfig)
 
+    setup_logging(app=app)
+
     init_db()
+    
+    @app.before_request
+    def _start_timer_and_request_id():
+        g.start_time = time.time()
+        g.request_id = uuid.uuid4().hex[:12]
+    
+    @app.after_request
+    def _log_request(response):
+        duration_ms = int((time.time() - getattr(g, "start_time", time.time()))*1000)
+        user_id = None
+        if hasattr(g, "user") and isinstance(g.user, dict):
+            user_id = g.user.get("user_id")
+        
+        response.headers["X-Request-Id"] = g.request_id
+
+        app.logger.info(
+            f"{request.method} {request.path} status={response.status_code} "
+            f"duration_mc={duration_ms} user_id={user_id}",
+            extra={"request_id": g.request_id}
+        )
+        return response
     
     app.teardown_appcontext(close_db)
 

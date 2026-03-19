@@ -1,37 +1,26 @@
-from flask import request
+from werkzeug.security import generate_password_hash, check_password_hash
 from ..db import get_db
 from ..exceptions import  LoginFailed, UserExists
-from werkzeug.security import generate_password_hash, check_password_hash
 from ..auth import generate_auth_token
-
-def register_service(username: str, password: str):
-    db = get_db()
-    row = db.execute(
-        "SELECT username FROM users WHERE username = ?",
-        (username,)
-    ).fetchone()
-    if row:
+from ..response import ok
+from ..repositories.user_repository import(
+    username_exists_repo,
+    create_user_repo,
+    get_user_by_username_repo
+)
+def register_service(username: str, password: str) -> dict:
+    if username_exists_repo(username=username):
         raise UserExists()
-    
     password_hash = generate_password_hash(password)
-    cur = db.execute(
-        "INSERT INTO users (username, password) VALUES(?, ?)",
-        (username, password_hash)
-    )
-    db.commit()
-    user_id = cur.lastrowid
+    user_id = create_user_repo(username=username, password_hash=password_hash)
     return {"user_id": user_id, "username": username}
 
-def login_service(username: str, password: str):
-    db = get_db()
-    row = db.execute(
-        "SELECT id, username, password FROM users WHERE username = ?",
-        (username,)
-    ).fetchone()
-    if not row:
-        raise LoginFailed()
-    if not check_password_hash(row["password"], password):
-        raise LoginFailed()
-    token = generate_auth_token({"user_id": row["id"]})
+def login_service(username: str, password: str) -> dict:
 
-    return {"user_id": row["id"], "username": row["username"], "token": token}
+    user = get_user_by_username_repo(username=username)
+    if not user:
+        raise LoginFailed()
+    if not check_password_hash(user["password"], password):
+        raise LoginFailed()
+    token = generate_auth_token({"user_id": user["id"]})
+    return {"user": user, "token": token}
