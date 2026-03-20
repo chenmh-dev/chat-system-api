@@ -1,11 +1,7 @@
 from flask import Blueprint, request, g
 from ..response import ok
 from ..decorators import require_auth_token
-from ..services.conversation_service import(
-    get_or_create_direct_conversation_service,
-    list_user_conversations_paginated_service,
-    get_conversation_service
-)
+from ..services import conversation_service
 from ..validators.common_validators import(
     get_json,
     required_int,
@@ -25,7 +21,7 @@ def get_or_create_direct_conversation_route():
     target_user_id = required_int(data=data, key="target_user_id")
     user_id = g.user["user_id"]
 
-    conversation_id = get_or_create_direct_conversation_service(
+    conversation_id = conversation_service.get_or_create_direct_conversation(
         user_id=user_id, 
         target_user_id=target_user_id
     )
@@ -43,7 +39,7 @@ def list_user_conversations_paginated_route():
     keyword = parse_keyword(request, max_len=200)
     user_id = g.user["user_id"]
 
-    result = list_user_conversations_paginated_service(
+    result = conversation_service.list_user_conversations_paginated(
         user_id=user_id,
         page=page,
         page_size=page_size,
@@ -57,7 +53,7 @@ def list_user_conversations_paginated_route():
 @require_auth_token
 def get_conversation_detail_route(conversation_id: int):
     user_id = g.user["user_id"]
-    result = get_conversation_service(user_id=user_id, conversation_id=conversation_id)
+    result = conversation_service.get_conversation(user_id=user_id, conversation_id=conversation_id)
     return ok(data=result, message="Conversation", status=200)
 
 

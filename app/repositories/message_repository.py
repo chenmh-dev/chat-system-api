@@ -1,6 +1,6 @@
 from ..db import get_db
 
-def create_massage_repo(user_id: int, conversation_id: int, content: str) -> int:
+def create_message(user_id: int, conversation_id: int, content: str) -> int:
     db = get_db()
     cur = db.execute(
         "INSERT INTO messages(conversation_id, sender_id, content) VALUES(?, ?, ?)",
@@ -9,7 +9,7 @@ def create_massage_repo(user_id: int, conversation_id: int, content: str) -> int
     db.commit()
     return cur.lastrowid
 
-def list_messages_paginated_repo(
+def list_messages_paginated(
     conversation_id: int,
     page: int, 
     page_size: int,

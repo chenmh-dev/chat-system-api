@@ -1,10 +1,7 @@
 from flask import request, g, Blueprint
 from ..decorators import require_auth_token
 from ..response import ok
-from ..services.message_services import(
-    list_messages_paginated_service,
-    create_massage_service
-)
+from ..services import message_services
 from ..validators.common_validators import(
     get_json,
     required_str
@@ -19,12 +16,12 @@ bp = Blueprint("message", __name__)
 
 @bp.post("/conversations/<int:conversation_id>/messages")
 @require_auth_token
-def create_massage_route(conversation_id: int):
+def create_message_route(conversation_id: int):
     data = get_json(request=request)
     content = required_str(data=data, key="content", min_len=1, max_len=4000)
     user_id = g.user["user_id"]
 
-    message_id = create_massage_service(
+    message_id = message_services.create_message(
         user_id=user_id, 
         conversation_id=conversation_id, 
         content=content
@@ -43,7 +40,7 @@ def list_messages_paginated_route(conversation_id: int):
     )
 
     user_id = g.user["user_id"]
-    result = list_messages_paginated_service(
+    result = message_services.list_messages_paginated(
         user_id=user_id, 
         conversation_id=conversation_id,
         page=page,

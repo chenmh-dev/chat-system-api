@@ -28,3 +28,15 @@
 2026-03-20 01:33:38,218 INFO request_id=edd7d190677a POST /conversations/direct status=200 duration_mc=1 user_id=1
 2026-03-20 01:33:40,664 INFO request_id=62ad1570faaf GET /conversations/2 status=200 duration_mc=1 user_id=1
 2026-03-20 01:33:42,588 INFO request_id=c0c6d5775bac GET /conversations/1/messages status=200 duration_mc=1 user_id=1
+2026-03-20 17:08:07,611 WARNING request_id=33b37e3fa9a5 AppError code=USER_EXISTS, message=username already exists, status=409
+2026-03-20 17:08:07,612 INFO request_id=33b37e3fa9a5 POST /register status=409 duration_mc=2 user_id=None
+2026-03-20 17:08:12,745 INFO request_id=7d99e5e5bc16 POST /register status=200 duration_mc=134 user_id=None
+2026-03-20 17:08:14,641 WARNING request_id=96a57807e0d9 AppError code=USER_EXISTS, message=username already exists, status=409
+2026-03-20 17:08:14,642 INFO request_id=96a57807e0d9 POST /register status=409 duration_mc=1 user_id=None
+2026-03-20 17:08:17,046 INFO request_id=02d2fd2557d5 POST /login status=200 duration_mc=132 user_id=None
+2026-03-20 17:08:20,001 INFO request_id=2255afa9902c GET /me status=200 duration_mc=1 user_id=1
+2026-03-20 17:08:23,936 INFO request_id=9831fbfa9139 POST /conversations/direct status=200 duration_mc=1 user_id=1
+2026-03-20 17:08:25,832 INFO request_id=e5462ccdb930 GET /conversations status=200 duration_mc=1 user_id=1
+2026-03-20 17:08:27,633 INFO request_id=f96b3791fed1 GET /conversations/2 status=200 duration_mc=1 user_id=1
+2026-03-20 17:08:28,947 INFO request_id=d5a450c026d1 POST /conversations/1/messages status=201 duration_mc=4 user_id=1
+2026-03-20 17:08:32,153 INFO request_id=568e027314da GET /conversations/1/messages status=200 duration_mc=1 user_id=1
