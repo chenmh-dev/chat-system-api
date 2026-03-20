@@ -3,7 +3,7 @@ from werkzeug.exceptions import HTTPException
 from .exceptions import AppError
 from .response import fail
 
-def registe_error_hanlder(app: Flask):
+def register_error_handler(app: Flask):
 
     @app.errorhandler(AppError)
     def handel_app_error(err):
