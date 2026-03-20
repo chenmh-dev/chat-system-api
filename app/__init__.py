@@ -1,9 +1,9 @@
 import os, time, uuid
 from flask import Flask, request, g
-from .db import init_db, close_db
-from .errors import registe_error_hanlder
-from .config import DevelopmentConfig, ProductionConfig
-from .utils.logging import setup_logging
+from .core.db import init_db, close_db
+from .core.config import DevelopmentConfig, ProductionConfig
+from .core.logging import setup_logging
+from .common.errors import registe_error_hanlder
 def create_app():
     app = Flask(__name__)
     env = os.getenv("APP_ENV", "development").lower()
@@ -40,10 +40,10 @@ def create_app():
     app.teardown_appcontext(close_db)
 
     from .routes import bp as home
-    from .blueprints.auth_routes import bp as auth
-    from .blueprints.user_routes import bp as user
-    from .blueprints.conversation_routes import bp as conversation
-    from .blueprints.message_routes import bp as message
+    from .modules.auth.routes import bp as auth
+    from .modules.user.routes import bp as user
+    from .modules.conversation.routes import bp as conversation
+    from .modules.message.routes import bp as message
     
     app.register_blueprint(home)
     app.register_blueprint(auth)

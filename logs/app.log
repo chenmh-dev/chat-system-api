@@ -40,3 +40,24 @@
 2026-03-20 17:08:27,633 INFO request_id=f96b3791fed1 GET /conversations/2 status=200 duration_mc=1 user_id=1
 2026-03-20 17:08:28,947 INFO request_id=d5a450c026d1 POST /conversations/1/messages status=201 duration_mc=4 user_id=1
 2026-03-20 17:08:32,153 INFO request_id=568e027314da GET /conversations/1/messages status=200 duration_mc=1 user_id=1
+2026-03-20 18:33:02,503 WARNING request_id=899094580cd2 AppError code=USER_EXISTS, message=username already exists, status=409
+2026-03-20 18:33:02,503 INFO request_id=899094580cd2 POST /register status=409 duration_mc=1 user_id=None
+2026-03-20 18:33:04,752 INFO request_id=8490b6591c8b POST /login status=200 duration_mc=131 user_id=None
+2026-03-20 18:33:06,866 INFO request_id=3f6b19c5d1c9 GET /me status=200 duration_mc=1 user_id=1
+2026-03-20 18:33:08,524 INFO request_id=367a6f2a017d POST /conversations/direct status=200 duration_mc=1 user_id=1
+2026-03-20 18:33:09,682 INFO request_id=de77ea34078c GET /conversations status=200 duration_mc=1 user_id=1
+2026-03-20 18:33:11,069 INFO request_id=567dbfdae7d0 POST /conversations/1/messages status=201 duration_mc=4 user_id=1
+2026-03-20 18:33:13,115 INFO request_id=2d63e83eb669 GET /conversations/2 status=200 duration_mc=1 user_id=1
+2026-03-20 18:33:15,057 INFO request_id=dcf84a3b42c2 POST /conversations/1/messages status=201 duration_mc=3 user_id=1
+2026-03-20 18:33:16,371 INFO request_id=b92c75fae918 GET /conversations/1/messages status=200 duration_mc=1 user_id=1
+2026-03-20 19:21:16,316 WARNING request_id=5d44e76ff531 AppError code=USER_EXISTS, message=username already exists, status=409
+2026-03-20 19:21:16,316 INFO request_id=5d44e76ff531 POST /register status=409 duration_mc=1 user_id=None
+2026-03-20 19:21:18,560 INFO request_id=4c1490003025 POST /login status=200 duration_mc=134 user_id=None
+2026-03-20 19:21:23,454 INFO request_id=de26e2d10af5 POST /register status=200 duration_mc=130 user_id=None
+2026-03-20 19:21:25,203 INFO request_id=04c71e7f86ac POST /login status=200 duration_mc=132 user_id=None
+2026-03-20 19:21:27,264 INFO request_id=5fc510f1edf0 GET /me status=200 duration_mc=1 user_id=1
+2026-03-20 19:21:28,685 INFO request_id=9bf0ce99bce0 POST /conversations/direct status=200 duration_mc=1 user_id=1
+2026-03-20 19:21:29,979 INFO request_id=cab3b6555142 GET /conversations status=200 duration_mc=1 user_id=1
+2026-03-20 19:21:31,097 INFO request_id=b4a02cd1ad92 GET /conversations/2 status=200 duration_mc=1 user_id=1
+2026-03-20 19:21:31,901 INFO request_id=149e9d9f5bac POST /conversations/1/messages status=201 duration_mc=4 user_id=1
+2026-03-20 19:21:33,444 INFO request_id=ff276609f677 GET /conversations/1/messages status=200 duration_mc=1 user_id=1

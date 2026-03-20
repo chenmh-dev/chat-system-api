@@ -1,4 +1,4 @@
-from ..exceptions import BadRequest
+from ..common.exceptions import BadRequest
 
 def parse_pagination(
     request,

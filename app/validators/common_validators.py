@@ -1,5 +1,5 @@
 from typing import Any
-from ..exceptions import BadRequest
+from ..common.exceptions import BadRequest
 
 
 def get_json(request) -> dict:
